@@ -1,0 +1,88 @@
+
+body {
+    margin: 0;
+    background-image: url(https://www.cursoemvideo.com/wp-content/uploads/2019/08/fundo08.jpg);
+    background-position: center 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+nav {
+    background-color: transparent;
+    padding: 0 20px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+ul {
+    color: white;
+    list-style: none;
+    padding: 0;
+    overflow: hidden;
+    transition: 0.5s;
+}
+
+.logo {
+    width: 150px;
+    height: 50px;
+    padding-top: 10px;
+    float: left;
+}
+
+nav, ul {
+    display: flex;
+    flex-direction: row;
+}
+
+li {
+    padding: 0 20px;
+}
+
+li a {
+    color: #fff;
+    text-decoration: none;
+    font-family: Catamaran,sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 36px;
+    position: absolute;
+    right: 10px;
+    display: none;
+}
+
+button:focus ~ ul{
+    width: 250px;
+}
+
+@media (max-width: 768px) {
+    nav{
+        display: grid;
+        align-items: flex-start;
+    }
+    nav ul{
+        flex-direction: column;
+        align-items: unset;
+    }
+    ul {
+        text-align: left;
+        margin: 0;
+        width: 0;
+        background-color: #fff;
+    }
+    button{
+        display: flex;
+    }
+    li{
+        padding-top: 10px;
+    }
+    a {
+        color: #1c0051 !important;
+    }
+}
