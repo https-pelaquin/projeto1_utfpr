@@ -1,6 +1,12 @@
 body{
     margin: 0;
 }
+
+.container{
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+}
 nav {
     background-color: transparent;
     padding: 0 20px;
@@ -19,7 +25,7 @@ ul {
 }
 
 .logo {
-    width: 150px;
+    width: 180px;
     height: 50px;
     padding-top: 10px;
     float: left;
@@ -78,7 +84,7 @@ button:focus ~ ul{
 .inicio .texto h1{
     color: #00e5fc;
     font-weight: 700;
-    font-size: 110px;
+    font-size: min(110px, 6vw);
     clear: both;
     margin: 0;
     padding: 0;
@@ -89,7 +95,7 @@ button:focus ~ ul{
 .inicio .texto h3{
     color: #fcfcfc;
     font-weight: 700;
-    font-size: 110px;
+    font-size: min(110px, 6vw);
     line-height: .8;
     margin: 0;
     padding: 0;
@@ -100,7 +106,7 @@ button:focus ~ ul{
     padding: 0 0 10px 0;
     color: #ffffff;
     font-weight: 300;
-    font-size: 21px;
+    font-size: min(21px, 6vw);
     line-height: 1.3;
     font-family: 'Roboto',sans-serif;
 }
