@@ -44,8 +44,54 @@
 
             </div>
         </div>
-        <div class="consulta" style="height: 400px; text-align: center;">
-            <h1>Busque por anime</h1>
+        <div class="formularios" id="formularios">
+            <div class="cadastro">
+                <div class="formCadastro">
+                    <h2>Cadastro de Usuário</h2>
+                    <div id="msgError" class="msgError"></div>
+                    <div id="msgSuccess" class="msgSuccess"></div>
+                    <div class="itemCadastro">
+                        <label for="nome" id="labelNome">Nome</label>
+                        <input type="text" id="nome">
+                    </div>
+                    <div class="itemCadastro">
+                        <label for="email" id="labelEmail">Email</label>
+                        <input type="email" id="email">
+                    </div>
+                    <div class="itemCadastro">
+                        <label for="senha" id="labelSenha">Senha</label>
+                        <input type="password" id="senha">
+                    </div>
+                    <div>
+                        <button onclick="cadastrar()">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="login">
+                <div class="formLogin">
+                    <h2>Login do Usuário</h2>
+                    <div id="msgErrorLogin" class="msgError"></div>
+                    <div id="msgSuccessLogin" class="msgSuccess"></div>
+                    <div class="itemLogin">
+                        <label for="emailLogin" id="labelEmailLogin">Email</label>
+                        <input type="email" id="emailLogin">
+                    </div>
+                    <div class="itemLogin">
+                        <label for="senhaLogin" id="labelSenhaLogin">Senha</label>
+                        <input type="password" id="senhaLogin">
+                    </div>
+                    <div>
+                        <button onclick="login()">Entrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="consulta" id="consulta">
+            <h1 id="bemvindo"></h1>
+            <h2>Busque por anime</h2>
             <input type="text" id="busca_anime" name="busca_anime" class="busca_anime" placeholder="Digite um anime" value="" minlength="3">
             <button id="buscar">Buscar</button>
 
@@ -57,9 +103,162 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" charset="utf-8">
+        localStorage.removeItem("token");
+        localStorage.removeItem("userLogado");
+        /* script de cadastro*/
+        let nome = document.querySelector("#nome");
+        let labelNome = document.querySelector("#labelNome");
+        let validarNome = false;
+
+        let email = document.querySelector("#email");
+        let labelEmail = document.querySelector("#labelEmail");
+        let validarEmail = false;
+
+        let senha = document.querySelector("#senha")
+        let labelSenha = document.querySelector("#labelSenha");
+        let validarSenha = false;
+
+        let msgError = document.querySelector("#msgError");
+        let msgSuccess = document.querySelector("#msgSuccess");
+
+        nome.addEventListener('keyup', () => {
+            if (nome.value.length <= 2) {
+                labelNome.setAttribute('style', 'color: red')
+                labelNome.innerHTML = 'Nome'
+                nome.setAttribute('style', 'border-color: red')
+                validarNome = false
+            } else {
+                labelNome.setAttribute('style', 'color: green')
+                labelNome.innerHTML = 'Nome'
+                nome.setAttribute('style', 'border-color: green')
+                if (nome.value != "") {
+                    validarNome = true
+                } else {
+                    validarNome = false
+                }
+            }
+        })
+
+        email.addEventListener('keyup', () => {
+            if (email.value.length <= 10) {
+                labelEmail.setAttribute('style', 'color: red')
+                labelEmail.innerHTML = 'Email'
+                email.setAttribute('style', 'border-color: red')
+                validarEmail = false
+            } else {
+                labelEmail.setAttribute('style', 'color: green')
+                labelEmail.innerHTML = 'Email'
+                email.setAttribute('style', 'border-color: green')
+                if (email.value != "") {
+                    validarEmail = true
+                } else {
+                    validarEmail = false
+                }
+            }
+        })
+
+        senha.addEventListener('keyup', () => {
+            if (senha.value.length <= 5) {
+                labelSenha.setAttribute('style', 'color: red')
+                labelSenha.innerHTML = 'Senha'
+                senha.setAttribute('style', 'border-color: red')
+                validarSenha = false
+            } else {
+                labelSenha.setAttribute('style', 'color: green')
+                labelSenha.innerHTML = 'Senha'
+                senha.setAttribute('style', 'border-color: green')
+
+                if (senha.value != "") {
+                    validarSenha = true
+                } else {
+                    validarSenha = false
+                }
+            }
+        })
+
+
+        function cadastrar() {
+            if (validarNome && validarEmail && validarSenha) {
+                let listaUser = JSON.parse(localStorage.getItem("listaUser") || "[]")
+
+                listaUser.push({
+                    nomeCad: nome.value,
+                    emailCad: email.value,
+                    senhaCad: senha.value
+                })
+
+                localStorage.setItem("listaUser", JSON.stringify(listaUser))
+
+                msgSuccess.setAttribute('style', 'display: block')
+                msgSuccess.innerHTML = '<strong>Cadastrado com sucesso</strong>'
+                msgError.setAttribute('style', 'display: none')
+                msgError.innerHTML = ''
+
+                nome.value = null;
+                email.value = null;
+                senha.value = null;
+            } else {
+                msgError.setAttribute('style', 'display: block')
+                msgError.innerHTML = '<strong>Preencha todos os campos corretamente antes de cadastrar</strong>'
+                msgSuccess.innerHTML = ''
+                msgSuccess.setAttribute('style', 'display: none')
+            }
+        }
+
+        /* Script de Login do usuario */
+
+        function login() {
+            let emailLogin = document.querySelector("#emailLogin");
+            let labelEmailLogin = document.querySelector("#labelEmailLogin");
+
+            let senhaLogin = document.querySelector("#senhaLogin");
+            let labelSenhaLogin = document.querySelector("#labelSenhaLogin");
+
+            let msgError = document.querySelector("#msgErrorLogin");
+
+            let listaUser = [];
+
+            let userValid = {
+                nome: '',
+                email: '',
+                senha: ''
+            }
+
+            listaUser = JSON.parse(localStorage.getItem("listaUser"));
+
+            listaUser.forEach((item) => {
+                if (emailLogin.value == item.emailCad && senhaLogin.value == item.senhaCad) {
+                    userValid = {
+                        nome: item.nomeCad,
+                        email: item.emailCad,
+                        senha: item.senhaCad
+                    };
+                }
+            });
+
+            if (emailLogin.value == userValid.email && senhaLogin.value == userValid.senha) {
+                let token = Math.random().toString(16).substr(2);
+                localStorage.setItem("token", token)
+                localStorage.setItem("userLogado", JSON.stringify(userValid))
+
+                document.getElementById("formularios").setAttribute("style", "display: none");
+                document.getElementById("consulta").setAttribute("style", "display: block");
+
+            } else {
+                labelEmailLogin.setAttribute("style", "color: red");
+                labelSenhaLogin.setAttribute("style", "color: red");
+                msgError.innerHTML = "Usuário ou senha incorretos";
+                msgError.setAttribute("style", "display: block");
+            }
+        }
+
+        /* Script de pesquisa de animes*/
+        let userLogado = JSON.parse(localStorage.getItem("userLogado"))
+        document.getElementById("bemvindo").innerHTML = ("Seja bem vindo ");
+
         var container = document.getElementById("search_results");
         document.getElementById("buscar").addEventListener("click", function() {
-            var query = document.querySelector("input").value;
+            var query = document.querySelector("#busca_anime").value;
             axios.get("https://api.jikan.moe/v3/search/anime?q=" + query).then(function(res) {
 
                 var results = res.data.results;
