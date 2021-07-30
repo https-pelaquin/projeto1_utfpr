@@ -258,6 +258,9 @@ li a {
     margin-left: -5px;
     font-weight: 600;
 }
+.consulta button:hover{
+    border-width: medium;
+}
 
 .consulta .cards {
     display: flex;
@@ -387,4 +390,18 @@ li a {
 .cadastro .msgSuccess {
     padding-bottom: 10px;
     color: green;
+}
+
+/* custom do botão de sair */
+
+.consulta .sair button.sair {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+    width: 100px;
+    border-radius: 20px;
+    margin-left: 0px;
+}
+
+.consulta .sair button.sair:hover{
+    border-width: medium;
 }

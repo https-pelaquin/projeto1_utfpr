@@ -91,6 +91,10 @@
 
         <div class="consulta" id="consulta">
             <h1 id="bemvindo"></h1>
+            <div class="sair">
+                <h4>Clique aqui para Sair</h4>
+                <button class="sair" id="sair" onclick="sair()">Sair</button>
+            </div>
             <h2>Busque por anime</h2>
             <input type="text" id="busca_anime" name="busca_anime" class="busca_anime" placeholder="Digite um anime" value="" minlength="3">
             <button id="buscar">Buscar</button>
@@ -103,8 +107,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script type="text/javascript" charset="utf-8">
-        localStorage.removeItem("token");
-        localStorage.removeItem("userLogado");
+        var validToken = localStorage.getItem("token")
+        if (validToken == "" || validToken == null){
+            document.getElementById("formularios").setAttribute("style", "display: flex");
+            document.getElementById("consulta").setAttribute("style", "display: none");
+        } else {
+            document.getElementById("formularios").setAttribute("style", "display: none");
+            document.getElementById("consulta").setAttribute("style", "display: block");
+        }
         /* script de cadastro*/
         let nome = document.querySelector("#nome");
         let labelNome = document.querySelector("#labelNome");
@@ -251,10 +261,17 @@
                 msgError.setAttribute("style", "display: block");
             }
         }
+        /* Script para sair*/
+        function sair(){
+            localStorage.removeItem("token");
+            localStorage.removeItem("userLogado");
+            document.getElementById("formularios").setAttribute("style", "display: flex");
+            document.getElementById("consulta").setAttribute("style", "display: none");
+        }
 
         /* Script de pesquisa de animes*/
         let userLogado = JSON.parse(localStorage.getItem("userLogado"))
-        document.getElementById("bemvindo").innerHTML = ("Seja bem vindo ");
+        document.getElementById("bemvindo").innerHTML = ("Bem vindo");
 
         var container = document.getElementById("search_results");
         document.getElementById("buscar").addEventListener("click", function() {
